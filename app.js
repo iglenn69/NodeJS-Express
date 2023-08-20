@@ -8,6 +8,8 @@ const adminRoutes = require('./routes/admin'); // Imports the admin.js file
 const shopRoutes = require('./routes/shop'); // Imports the shop.js file
 
 app.use(bodyParser.urlencoded({extended: false})); // Adds a middleware
+app.use(express.static(path.join(__dirname, 'public'))); // Adds a middleware (static) to the middleware stack (app.use) => http://localhost:3000/css/main.css
+
 
 app.use('/admin', adminRoutes); // Adds a middleware (adminRoutes) to the middleware stack (app.use) 
 app.use(shopRoutes); // Adds a middleware (shopRoutes) to the middleware stack (app.use)
