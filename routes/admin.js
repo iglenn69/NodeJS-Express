@@ -1,20 +1,15 @@
-const express = require("express");
-const path = require("path");
+const path = require('path');
 
-const rootDir = require("../util/path"); // Imports the path.js file
+const express = require('express');
+
+const productsController = require('../controllers/products');
 
 const router = express.Router();
 
-// /admin/add-product => GET (only for GET requests)
-router.get("/add-product", (req, res, next) => {
-  console.log("In the add-product middleware!");
-  res.sendFile(path.join(rootDir, "views", "add-product.html")); // Sends a response
-});
+// /admin/add-product => GET
+router.get('/add-product', productsController.getAddProduct);
 
-// /admin/add-product => POST (only for POST requests)
-router.post("/add-product", (req, res, next) => {
-  console.log(req.body); // undefined without body-parser
-  res.redirect("/");
-});
+// /admin/add-product => POST
+router.post('/add-product', productsController.postAddProduct );
 
 module.exports = router;

@@ -1,22 +1,23 @@
-const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 
+const express = require('express');
+const bodyParser = require('body-parser');
+const errorsController = require('./controllers/errors');
 const app = express();
 
-const adminRoutes = require('./routes/admin'); // Imports the admin.js file
-const shopRoutes = require('./routes/shop'); // Imports the shop.js file
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
-app.use(bodyParser.urlencoded({extended: false})); // Adds a middleware
-app.use(express.static(path.join(__dirname, 'public'))); // Adds a middleware (static) to the middleware stack (app.use) => http://localhost:3000/css/main.css
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/admin', adminRoutes); // Adds a middleware (adminRoutes) to the middleware stack (app.use) 
-app.use(shopRoutes); // Adds a middleware (shopRoutes) to the middleware stack (app.use)
+app.use('/admin', adminRoutes);
 
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html')); // Sends a response
-}); 
+app.use(shopRoutes);
 
-app.listen(3000); // Starts a server on port 3000 => http://localhost:3000
+app.use(errorsController.get404 );
 
+app.listen(3000);
